@@ -1,0 +1,124 @@
+body {
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  margin: 0;
+  background: #fff;
+}
+.container {
+  max-width: 1200px;           
+  width: 100%;                 /* Fill available space up to max-width */
+  margin: 22px auto 0 auto;    /* Top, Right, Bottom, Left. 'auto' left/right     centers it */
+  background: transparent;         /* Light background, like Codeforces content area  */
+  padding: 25px 28px;          /* Space inside the box: top/bottom, left/right    */
+   /* Soft shadow for box look (optional)            */
+}
+.content-section{
+  color:crimson
+}
+
+
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 28px 0 28px;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+}
+
+.logo {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(90deg, #ffd600 40%, #186df6 40%, #186df6 70%, #38c432 70%);
+  margin-right: 8px;
+  border-radius: 5px;
+}
+
+.brand {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+}
+
+.brand-main {
+  color: #000;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+}
+
+.brand-sub {
+  color: #0854cf;
+  letter-spacing: 0.5px;
+  font-family: 'Roboto Condensed', Arial, sans-serif;
+
+}
+
+.maintained {
+  margin-left: 14px;
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+}
+
+.user-links {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.user-links a {
+  color: #186df6;
+  text-decoration: none;
+}
+
+.lang-icons img {
+  margin-left: 4px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.top-nav {
+  margin-top: 14px;
+  background: #fff;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.top-nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0 25px;
+  padding: 0;
+}
+
+.top-nav li {
+  display: inline-block;
+  padding: 8px 14px 7px 14px;
+  margin: 0 1px;
+  font-size: 15px;
+  color: #111;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.top-nav li.active {
+  border: 1.5px solid #e3e3e3;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  color: #186df6;
+  font-weight: bold;
+  background: #f9f9f9;
+}
+
+.search {
+  border: 1.2px solid #e3e3e3;
+  border-radius: 5px;
+  padding: 4px 10px;
+  margin-left: 24px;
+}

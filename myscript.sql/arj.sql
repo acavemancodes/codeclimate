@@ -1,0 +1,12 @@
+CREATE TABLE users (
+    Id INTEGER PRIMARY KEY,
+    Userid VARCHAR(20),
+    Score INTEGER
+);
+
+LOAD DATA LOCAL INFILE 'arj.csv'
+INTO TABLE users
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(Id, Userid, Score);

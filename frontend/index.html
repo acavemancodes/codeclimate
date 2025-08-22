@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CodeClimate</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Popup styling */
+        #popupOverlay {
+            display: none; /* Hidden until Register clicked */
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup {
+            background: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER -->
+        <header class="main-header">
+            <div class="brand-section">
+                <div class="logo"></div>
+                <span class="brand">
+                    <span class="brand-main">code</span>
+                    <span class="sub-brand">Climate</span>
+                </span>
+                <span class="maintained">maintained by <b>TVC</b></span>
+            </div>
+
+            <div class="user-links">
+                <!-- Register button triggers popup -->
+                <button id="openPopup">Register</button>
+
+                <!-- Popup Overlay -->
+                <div class="popup-overlay" id="popupOverlay">
+                    <div class="popup">
+                        <h2>Register</h2>
+                        <form id="registerForm">
+                            <label>Username:</label><br>
+                            <input type="text" id="username" name="username" required><br><br>
+
+                            <label>College Email:</label><br>
+                            <input type="email" id="email" name="email" placeholder="example@college.edu" required><br><br>
+
+                            <label>Password:</label><br>
+                            <input type="password" id="password" name="password" required><br><br>
+
+                            <button type="submit">Submit</button>
+                            <button type="button" id="closePopup">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- NAVIGATION -->
+        <nav class="top-nav">
+            <ul>
+                <li><a href="#" class="nav-link" data-section="home">HOME</a></li>
+                <li>TOP</li>
+                <li>TECH-BLOG</li>
+                <li><a href="#" class="nav-link" data-section="contests">CONTEST</a></li>
+                <li>S-CURVE</li>
+                <li>PROBLEMSET</li>
+                <li>CONTRIBUTE</li>
+                <li>RATING</li>
+                <li>ALUMNI</li>
+                <li>CALENDAR</li>
+                <li>HELP</li>
+                <li><input class="search" type="text" placeholder=""/></li>
+            </ul>
+        </nav>
+
+        <!-- MAIN SECTIONS -->
+        <div id="home" class="content-section" style="display: block;">
+            <h2>codeClimate Round 0001</h2>
+            <p>Welcome to CodeClimate! Click **Register** above to create your account.</p>
+        </div>
+
+        <div id="contests" class="content-section" style="display: none;">
+            <h2>Contest Area</h2>
+            <div id="editor" style="height: 500px; width: 500px">code-editor</div>
+        </div>
+
+    </div>
+
+    <!-- Load Ace Editor then nav script -->
+    <script src="./src-noconflict/ace.js"></script>
+    <script src="nav.js"></script>
+
+</body>
+</html>
