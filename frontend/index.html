@@ -1,102 +1,518 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>CodeClimate</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
-        /* Popup styling */
-        #popupOverlay {
-            display: none; /* Hidden until Register clicked */
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            justify-content: center;
-            align-items: center;
-        }
-        .popup {
-            background: #fff;
-            padding: 20px;
-            border-radius: 6px;
-            min-width: 300px;
-        }
+      /* Popup styling */
+      #popupOverlay {
+        display: none; /* Hidden until Register clicked */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      }
+      .popup {
+        background: #fff;
+        padding: 20px;
+        border-radius: 6px;
+        min-width: 300px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-
-        <!-- HEADER -->
-        <header class="main-header">
-            <div class="brand-section">
-                <div class="logo"></div>
-                <span class="brand">
-                    <span class="brand-main">code</span>
-                    <span class="sub-brand">Climate</span>
-                </span>
-                <span class="maintained">maintained by <b>TVC</b></span>
-            </div>
-
-            <div class="user-links">
-                <!-- Register button triggers popup -->
-                <button id="openPopup">Register</button>
-
-                <!-- Popup Overlay -->
-                <div class="popup-overlay" id="popupOverlay">
-                    <div class="popup">
-                        <h2>Register</h2>
-                        <form id="registerForm">
-                            <label>Username:</label><br>
-                            <input type="text" id="username" name="username" required><br><br>
-
-                            <label>College Email:</label><br>
-                            <input type="email" id="email" name="email" placeholder="example@college.edu" required><br><br>
-
-                            <label>Password:</label><br>
-                            <input type="password" id="password" name="password" required><br><br>
-
-                            <button type="submit">Submit</button>
-                            <button type="button" id="closePopup">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- NAVIGATION -->
-        <nav class="top-nav">
-            <ul>
-                <li><a href="#" class="nav-link" data-section="home">HOME</a></li>
-                <li>TOP</li>
-                <li>TECH-BLOG</li>
-                <li><a href="#" class="nav-link" data-section="contests">CONTEST</a></li>
-                <li>S-CURVE</li>
-                <li>PROBLEMSET</li>
-                <li>CONTRIBUTE</li>
-                <li>RATING</li>
-                <li>ALUMNI</li>
-                <li>CALENDAR</li>
-                <li>HELP</li>
-                <li><input class="search" type="text" placeholder=""/></li>
-            </ul>
-        </nav>
-
-        <!-- MAIN SECTIONS -->
-        <div id="home" class="content-section" style="display: block;">
-            <h2>codeClimate Round 0001</h2>
-            <p>Welcome to CodeClimate! Click **Register** above to create your account.</p>
+      <!-- HEADER -->
+      <header class="main-header">
+        <div class="brand-section">
+          <div class="logo"></div>
+          <span class="brand">
+            <span class="brand-main">code</span>
+            <span class="sub-brand">Climate</span>
+          </span>
+          <span class="maintained">maintained by <b>TVC</b></span>
         </div>
 
-        <div id="contests" class="content-section" style="display: none;">
-            <h2>Contest Area</h2>
-            <div id="editor" style="height: 500px; width: 500px">code-editor</div>
-        </div>
+        <div class="user-links">
+          <!-- Register button triggers popup -->
+          <button id="openPopup">Register</button>
 
+          <!-- Popup Overlay -->
+          <div class="popup-overlay" id="popupOverlay">
+            <div class="popup">
+              <h2>Register</h2>
+              <form id="registerForm">
+                <label>Username:</label><br />
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  required
+                /><br /><br />
+
+                <label>College Email:</label><br />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="example@college.edu"
+                  required
+                /><br /><br />
+
+                <label>Password:</label><br />
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                /><br /><br />
+
+                <button type="submit">Submit</button>
+                <button type="button" id="closePopup">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- NAVIGATION -->
+      <nav class="top-nav">
+        <ul>
+          <li><a href="#" class="nav-link" data-section="home">HOME</a></li>
+          <li>TOP</li>
+          <li>
+            <a href="#" class="nav-link" data-section="techblog">Tech-Blog</a>
+          </li>
+          <li>
+            <a href="#" class="nav-link" data-section="contests">CONTEST</a>
+          </li>
+          <li>S-CURVE</li>
+          <li>PROBLEMSET</li>
+          <li>CONTRIBUTE</li>
+          <li>RATING</li>
+          <li>ALUMNI</li>
+          <li>
+            <a href="#" class="nav-link" data-section="calender">CALENDER</a>
+          </li>
+          <li>HELP</li>
+          <li><input class="search" type="text" placeholder="" /></li>
+        </ul>
+      </nav>
+
+      <!-- MAIN SECTIONS -->
+      <div id="home" class="content-section" style="display: block">
+        <h2>codeClimate Round 0001</h2>
+        <p>
+          Welcome to CodeClimate! Click <strong>Register</strong> above to
+          create your account.
+        </p>
+      </div>
+
+      <div id="contests" class="content-section" style="display: none">
+        <h2>Contest Area</h2>
+        <div class="contest-flex">
+          <div class="contest-left">
+            <div style="margin-bottom: 10px;">
+              <select id="language">
+                <option value="71">Python 3</option>
+                <option value="54">C++</option>
+                <option value="50">C</option>
+                <option value="62">Java</option>
+                <option value="63">JavaScript</option>
+              </select>
+              <button id="runBtn">Run</button>
+            </div>
+            <div id="editor">print("Hello, World!")</div>
+            <pre id="output"></pre>
+          </div>
+          <div class="contest-right">
+            <h3>Sample Problem</h3>
+            <p>
+              Given two integers A and B, print their sum.<br>
+              <b>Input:</b> Two integers A and B.<br>
+              <b>Output:</b> The sum of A and B.<br>
+              <b>Sample Input:</b> 2 3<br>
+              <b>Sample Output:</b> 5
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="techblog" class="content-section" style="display: none">
+        <h2>TechBlog@TVC</h2>
+
+        <time datetime="2025-05-19">19 May 2025</time>
+        <h3>MCP seems viral</h3>
+
+        <p>
+          MCP (Model Context Protocol)[<a
+            href="https://modelcontextprotocol.io/"
+            >1</a
+          >] is all the rage now. Introduced by Anthropic about four months ago,
+          it has already been accepted as an open standard and has seen
+          widespread adoption, including by major AI companies and prominent AI
+          tool makers. There is even a directory[<a href="https://mcp.so/">2</a
+          >] listing over 13,000 MCP implementations. Technically, it is a very
+          simple API spec that facilitates RPC-like (Remote procedure call)
+          communication between an AI and an external system. It enables any
+          external system to advertise its capabilities—returning information or
+          performing various actions—allowing AI systems to dynamically and
+          “automagically” use those capabilities via API calls.
+        </p>
+
+        <h4>An example</h4>
+
+        <p>
+          To illustrate, here is a fanciful, but plausible example. Imagine
+          three completely independent websites that offer disparate services: a
+          travel site, a weather service, and an event booking platform. Each
+          could quickly implement a public MCP layer (an HTTP/JSON interface)
+          exposing their existing capabilities and functionalities, i.e.,
+          information they provide and actions they perform. Below is a highly
+          oversimplified mockup in MCP pseudo-parlance:
+        </p>
+
+        <h5>Travel</h5>
+        <ul>
+          <li>check_train_schedule(date, from_place, to_place)</li>
+          <li>search_hotels(from_date, to_date, area)</li>
+          <li>book_hotel(hotel_name, from_date, to_date, room_type)</li>
+        </ul>
+
+        <h5>Weather</h5>
+        <ul>
+          <li>get_weather_forecast(date, area)</li>
+        </ul>
+
+        <h5>Events</h5>
+        <ul>
+          <li>list_events(date, type, area)</li>
+          <li>book_event(date, type, number_of_people)</li>
+        </ul>
+
+        <p>
+          One could then link these websites to their favorite MCP-enabled AI
+          (LLM) interface. Plug <code>mcp.travelwebsite.com</code> along with
+          endpoints for the other services into the AI’s interface and et voilà,
+          the AI can now mix and match these capabilities to fulfil one’s
+          arbitrary requests. Below is one such vague prompt that could be typed
+          into the AI’s chat window:
+        </p>
+
+        <p>
+          <strong>User:</strong> You know what, I’m feeling quite adventurous.
+          You know my taste in music already. This coming weekend, if there’s a
+          concert I might like within a 4 hour distance, buy tickets for that,
+          and book a hotel room and a train there and back the next day. I don’t
+          want to leave home before 8 AM though. If there are no interesting
+          concerts, then find a place where the weather will be pleasant. I
+          don’t mind travelling up to 8 hours and staying two extra days. Prefer
+          areas known for the kind of food I like.
+        </p>
+
+        <p><strong>The AI, via MCP, would then:</strong></p>
+        <ul>
+          <li>
+            Communicate with the three services, parsing their MCP definitions
+            (akin to one glancing through technical documentation) and
+            understanding their capabilities.
+          </li>
+          <li>
+            Figure out how to mix and match the relevant capabilities to
+            retrieve necessary information.
+          </li>
+          <li>
+            Use its own vast knowledge as necessary. In this example, the
+            knowledge of distance between geographical regions, food and
+            cuisines of various regions, and even real-time travel advisory for
+            different places.
+          </li>
+          <li>
+            Automatically plan and make the necessary API calls via MCP to
+            finally fulfil the user’s command.
+          </li>
+        </ul>
+
+        <p>
+          While this example is rather fanciful and prone to going wrong in
+          myriad ways, it is already technically feasible. Any system, from a
+          travel portal, to one’s mailbox, calendar, browser, or a code editor
+          can be connected to AI via MCP, allowing AI systems to interact with
+          them and control them. What is exciting but frightening at the same
+          time, is not the example in itself, but the fact that MCP enables AI
+          systems to combine real-world services in infinite ways without anyone
+          having to manually integrate those services for specific scenarios.
+          Integrate, now that is the critically important detail here.
+        </p>
+
+        <h4>System Integration</h4>
+        <p>
+          Beneath nearly every software service—be it a weather site, a travel
+          portal, or a government tax platform—lies a Kafkaesque maze of
+          interconnections and integrations spanning numerous systems across
+          organisations. A significant share of time, code, labour, complexity,
+          and cost[<a
+            href="https://www.marketdataforecast.com/market-reports/europe-system-integration-market"
+            >3</a
+          >][<a
+            href="https://www.grandviewresearch.com/industry-analysis/system-integrators-market-report"
+            >4</a
+          >][<a
+            href="https://finance.yahoo.com/news/global-system-integration-market-size-172000730.html"
+            >5</a
+          >] in the global tech industry can be attributed to the painstaking
+          process of integrating systems and maintaining these integrations in
+          perpetuity.
+        </p>
+
+        <p>
+          For example, a travel site showing weather forecasts must integrate
+          with a weather data aggregator, which in turn integrates with regional
+          weather data providers, who in turn integrate with on-ground hardware
+          systems. The tech world is integration turtles all the way down—a
+          leaky, messy, maintenance-heavy affair colloquially called plumbing.
+        </p>
+
+        <p>
+          AI’s ability, via MCP, to read the roster of capabilities that a
+          system offers, and to plumb it with other systems instantly, is a
+          fundamental, radical departure from how system integration has worked
+          at scale, how the tech world operates; no manual coding required. Of
+          course, purpose-built, domain-specific, classical system integration
+          is not going to go away anytime soon, and while it would be extreme to
+          assume that this spells the death of explicit “classical” system
+          integration, it seems logical that over a period of time, an
+          increasing number of integrations are going to be auto-plumbed
+          dynamically by AI on-demand (or on-whim). It does not matter whether a
+          service deals in machine-readable data like JSON or XML, or just
+          natural, unstructured human language, the AI system interprets it
+          (right or wrong), and makes the integration work without anyone having
+          to code anything. In the world of integrations, this is unprecedented.
+          As the number of services offering MCP connectivity increases,
+          infinite combinatorial possibilities of cross-service functionality
+          emerge. Once again, logically, this must eat into explicit system
+          integration projects.
+        </p>
+
+        <p>
+          Services on the other hand, the ones who expose their functionality
+          via MCP for users to interact via their favorite AI systems, are going
+          to exert competitive pressure on their peers to follow suit. It is
+          entirely reasonable to imagine that a user would prefer a travel
+          portal with which they can interact via their favorite AI assistant
+          (“agentic” systems, as some say ಠ_ಠ), over one that does not offer
+          that. Strictly from a user perspective, it feels liberating to be able
+          to access services outside of their walled gardens and bloated UIs
+          riddled with dark patterns. It moves a considerable amount of control
+          from service providers to users, but at the same time, it concentrates
+          decision-making and mediation in the hands of AI blackboxes. What
+          about errors and failures with real-world implications that occur in
+          the midst of AI orchestration across critical services? How would
+          those be debugged and traced? How would accountability be established?
+          Will regulations and governance models emerge for AI-mediated
+          automagical actions across services? Whether the long-term
+          implications of MCP’s viral, cross-cutting spread will be net positive
+          or not, is unclear to me.
+        </p>
+
+        <p>
+          In an
+          <a href="https://nadh.in/blog/this-time-it-feels-different/"
+            >earlier post</a
+          >
+          (2023), I expressed concern that humans might hastily integrate AI
+          blackboxes into critical decision-making systems without forethought,
+          gradually eroding human agency and accountability.[<a
+            href="https://www.digit.fyi/civil-society-groups-urge-uk-gov-to-rethink-ai-decision-making-rules/"
+            >6</a
+          >][<a
+            href="https://www.theguardian.com/society/2024/dec/06/revealed-bias-found-in-ai-system-used-to-detect-uk-benefits"
+            >7</a
+          >][<a
+            href="https://apnews.com/article/ai-artificial-intelligence-5dfa1da145689e7951a181e2253ab349"
+            >8</a
+          >][<a
+            href="https://www.npr.org/sections/health-shots/2023/06/08/1180838096/an-eating-disorders-chatbot-offered-dieting-advice-raising-fears-about-ai-in-hea"
+            >9</a
+          >] In retrospect, it is no surprise that the post repeated the word
+          “integrate” six times.
+        </p>
+
+        <p>
+          In an ironic, exciting, and even terrifying twist, humans do not have
+          to integrate AI into systems. With MCP, AI systems can now do the
+          reverse—auto-integrate systems into themselves and start calling
+          real-world shots, at the same time, significantly diminishing the
+          visibility into the “how” and “why” of tangible cross-service actions.
+          It also seems plausible that DNS-like “recursive resolver” mechanisms
+          may emerge where AI systems will query directories, discover, and
+          auto-add MCP-enabled service to complete their goals, furthering
+          virality. For how long will humans be in the loop?
+        </p>
+
+        <h4>I am feeling lucky, adventurous</h4>
+
+        <p>
+          Google’s iconic <em>I’m feeling lucky</em> button turned the abstract
+          idea of “lucky” into a simple, predictable, and tangible
+          action—redirecting the user to the first search result. Now, AI
+          systems can interpret loose, abstract ideas such as “lucky” or goals
+          such as “adventure” in rather mysterious, inscrutable ways. Via MCP,
+          AI systems can interact with the external world, turning subjective
+          interpretations into real-world actions—booking a ticket, ordering
+          something,[<a href="https://archive.is/G9bKQ">10</a>] or creating even
+          more serious outcomes.[<a
+            href="https://www.bbc.com/travel/article/20240222-air-canada-chatbot-misinformation-what-travellers-should-know"
+            >11</a
+          >] For a variety of use cases, one no longer has to be subject to the
+          rigidity and strict confines of UIs offered by services. In a sense,
+          this is a shift in HCI (Human-Computer Interaction), where services
+          can become “headless” and let users interact with them via subjective
+          AI mediation. This in effect allows services and tools to be used in
+          ways they were not even designed for. Conceptually, this is not new
+          though. There is a big graveyard of past attempts, primarily because
+          every imaginable scenario (an Amazon Alexa Skill, for example) had to
+          be tailor made and integrated by hand, which is unviable. MCP
+          eliminates that obstacle, allowing AI systems to fluidly use external
+          capabilities, fueling its virality.
+        </p>
+
+        <p>
+          Speaking of subjective interpretation, out of curiosity, I asked stock
+          GPT-4o:
+        </p>
+
+        <p>
+          <strong>Me:</strong> I live in Bengaluru. I’m a hobbyist coder. I
+          generally don’t step out much. Anyway, I’m feeling adventurous this
+          weekend. What do I do?
+        </p>
+
+        <p>
+          <strong>GPT-4o:</strong> Given your interests and the current weather
+          in Bengaluru (cloudy with potential thunderstorms), here are some
+          indoor activities to consider this weekend:
+        </p>
+
+        <p>
+          … It listed a series of events and activities under various categories
+          such as Tech & Gaming and Arts & Culture It subjectively interpreted
+          my “interests” from those couple of lines, automatically pulled
+          weather for the area without my mentioning it, searched the web, and
+          came up with suggestions. It did this out-of-the-box without my having
+          to bring in any MCP plugins, as OpenAI has hand-built these
+          integrations internally (which would no longer be necessary, thanks to
+          MCP). The missing piece here is an MCP-connected booking service. With
+          MCP, the concrete action plan of going to a website, filling a form
+          with specific details, sifting through its UI, clicking an explicit
+          “Book now” button and so on, can now be reified from one’s abstract,
+          ambiguous expressions in any manner, in any language.
+        </p>
+
+        <h4>
+          Coming back to subjective interpretation, ChatGPT is on the way to
+          remembering and deciphering one’s whole life.
+        </h4>
+        <p>
+          <a
+            href="https://techcrunch.com/2025/05/15/sam-altmans-goal-for-chatgpt-to-remember-your-whole-life-is-both-exciting-and-disturbing/"
+            >Imagine that.</a
+          >
+        </p>
+
+        <h4>It’s not even about MCP</h4>
+
+        <p>
+          The funny thing is, as a technical construct, there is nothing special
+          about MCP. It is a trivial API spec which has in fact suffered from
+          poor design and fundamental technical[<a
+            href="https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/102#discussion-7624176"
+            >13</a
+          >][<a href="https://blog.sshh.io/p/everything-wrong-with-mcp">14</a>]
+          and security issues[<a
+            href="https://elenacross7.medium.com/%EF%B8%8F-the-s-in-mcp-stands-for-security-91407b33ed6b"
+            >15</a
+          >][<a
+            href="https://thehackernews.com/2025/04/experts-uncover-critical-mcp-and-a2a.html"
+            >16</a
+          >] from the get go. It does not matter if its internals change, or it
+          even outright gets replaced by some XYZ tomorrow. Questions about
+          privacy, security, correctness, and failures will continue to loom for
+          a good while, irrespective of whether it is technically MCP or XYZ.
+        </p>
+
+        <p>
+          What is radical is the core idea—a trivially implementable open
+          standard that lets AI systems interface with the external world. If a
+          service already has its functionality exposed via APIs, it is then
+          easy to wrap it in an MCP layer and make it ready for AI interactions.
+          It is no surprise that the directory already lists 13,000+
+          implementations.
+        </p>
+
+        <p>
+          On a philosophical level, I think it is a useful thought experiment to
+          analyse MCP, or whatever avatar it takes tomorrow, not as a
+          conventional technical standard, but because of the fluidity it
+          enables, as a loose, social contract between real-world services and
+          AI systems, facilitated at the behest of users (or AI systems
+          themselves tomorrow). Unlike the classical hand-made, explicit,
+          per-use-case system integrations, MCP allows an infinite number of
+          combinatorial outcomes to arise from arbitrary, self-assembling
+          integrations that nobody ever even imagined. If AI is a blackbox, AI
+          systems interfacing with the world via MCP, abstracting complexity to
+          an unprecedented degree, feels like a black hole of recursive
+          machine-induced fever dreams.
+        </p>
+
+        <p>
+          In essence, MCP is enabling a global, interconnected, self-organising
+          meta system that can behave in unpredictable ways. Picture an
+          intangible subjective blackbox network in the sky with the ability to
+          execute actions across random real-world systems. One might
+          imaginatively call it … SkyNet.
+        </p>
+
+        <p>
+          I jest, of course, fully aware that this post is tinted more with
+          alarm and a touch of the dramatic, than with excitement about
+          technical gadgetry, though I do feel that excitement to a fair extent
+          as well.
+        </p>
+
+        <p>
+          <em
+            >Tags: <a href="https://nadh.in/tags/tech">tech</a> |
+            <a href="https://nadh.in/tags/ai">ai</a> |
+            <a href="https://nadh.in/tags/philosophy">philosophy</a> |
+            <a href="https://nadh.in/tags/opinion">opinion</a></em
+          >
+        </p>
+      </div>
+
+      <div id="calender" class="content-section" style="display: none">
+        <h2>codeClimate</h2>
+        <div id="calendarContainer" style="width: 800px; height: 600px">
+          <iframe
+            src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FKolkata&showPrint=0&src=YXJqdW5wb2xlbndhckBnbWFpbC5jb20&src=ZmFtaWx5MTE2MzM4NDExNTc2NTU0MDc1MzFAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=ZW4uaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4tZ2IuaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%23039be5&color=%239e69af&color=%230b8043&color=%230b8043"
+            style="border: solid 1px #dae1e6"
+            width="1200"
+            height="600"
+            frameborder="0"
+            scrolling="no"
+          >
+          </iframe>
+        </div>
+      </div>
     </div>
 
     <!-- Load Ace Editor then nav script -->
     <script src="./src-noconflict/ace.js"></script>
     <script src="nav.js"></script>
-
-</body>
+  </body>
 </html>
