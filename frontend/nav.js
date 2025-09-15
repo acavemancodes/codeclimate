@@ -21,6 +21,22 @@ function updateThemeIcon() {
   }
 }
 
+function renderProblemList() {
+  const list = document.getElementById('problem-list');
+  if (!list) return;
+  list.innerHTML = '';
+  contestData.questions.forEach(q => {
+    const item = document.createElement('div');
+    item.className = 'lc-problem-item' + (contestData.currentQuestion === q.id ? ' active' : '');
+    item.textContent = `${q.id}. ${q.title}`;
+    item.addEventListener('click', () => {
+      loadQuestion(q.id);
+      document.querySelectorAll('.lc-problem-item').forEach(x => x.classList.remove('active'));
+      item.classList.add('active');
+    });
+    list.appendChild(item);
+  });
+}
 function updateAceEditorTheme() {
   if (window.aceEditor) {
     const theme = currentTheme === 'light' ? 'ace/theme/github' : 'ace/theme/monokai';
@@ -279,9 +295,13 @@ function updateTimerDisplay() {
   const seconds = contestData.timeRemaining % 60;
   const timerElement = document.getElementById("timer");
   const progressElement = document.getElementById("progress");
+  const miniTimer = document.getElementById('miniTimer');
   
   if (timerElement) {
     timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+  if (miniTimer) {
+    miniTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
   
   if (progressElement) {
@@ -294,6 +314,7 @@ function updateTimerDisplay() {
 // Scoring System
 let totalScore = 0;
 let questionScores = { 1: 0, 2: 0, 3: 0 };
+let savedCodeByQuestion = {};
 
 function updateScore() {
   const totalScoreElement = document.getElementById("total-score");
@@ -342,6 +363,8 @@ function loadQuestion(questionId) {
   if (!question) return;
 
   contestData.currentQuestion = questionId;
+  const tq = document.getElementById('total-questions');
+  if (tq) tq.textContent = String(contestData.questions.length);
   
   // Update question content
   const questionContent = document.getElementById("question-content");
@@ -376,6 +399,11 @@ function loadQuestion(questionId) {
 
   // Load test case results for this question
   loadTestCases(questionId);
+  if (window.aceEditor) {
+    const saved = savedCodeByQuestion[questionId];
+    const defaultCode = getDefaultTemplateCode();
+    window.aceEditor.setValue(saved != null ? saved : defaultCode, -1);
+  }
 }
 
 function showAdminPanel() {
@@ -410,8 +438,10 @@ function loadTestCases(questionId) {
   if (!question) return;
 
   testCasesContainer.innerHTML = "";
+  const cases = (question.testCases || []).slice(0, 10);
+  while (cases.length < 10) cases.push({ input: "", expected: "" });
   
-  question.testCases.forEach((testCase, index) => {
+  cases.forEach((testCase, index) => {
     const testCaseElement = document.createElement("div");
     testCaseElement.className = "test-case pending";
     testCaseElement.textContent = `Test ${index + 1}`;
@@ -530,109 +560,14 @@ document.querySelectorAll(".nav-link").forEach((link) => {
     if (sectionEl) sectionEl.style.display = "block";
     updateActiveNav(sectionId);
 
-    // Initialize contest functionality
+    // Initialize contests page
     if (sectionId === "contests") {
-      // Start timer if not already started
-      if (!timerInterval) {
-        startTimer();
-      }
+      showContestLanding();
+    }
 
-      // Load first question
-      loadQuestion(1);
-
-    // Initialize Ace editor only once
-      if (!window.aceInitialized) {
-      const aceEditor = ace.edit("editor", {
-          theme: currentTheme === 'light' ? "ace/theme/github" : "ace/theme/monokai",
-        mode: "ace/mode/python",
-          fontSize: 14,
-          showPrintMargin: false,
-          showGutter: true,
-          highlightActiveLine: true,
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true,
-        });
-        window.aceEditor = aceEditor;
-      window.aceInitialized = true;
-
-      const langMap = {
-        71: "python",
-        54: "c_cpp",
-          50: "c_cpp",
-        62: "java",
-        63: "javascript",
-      };
-
-      const langSel = document.getElementById("language");
-      if (langSel) {
-        langSel.addEventListener("change", function () {
-          const mode = langMap[this.value] || "text";
-          aceEditor.session.setMode("ace/mode/" + mode);
-        });
-      }
-
-        // Run button - run single test
-      const runBtn = document.getElementById("runBtn");
-      if (runBtn) {
-          runBtn.addEventListener("click", async function () {
-            const sourceCode = aceEditor.getValue();
-            const languageId = langSel.value;
-            const input = contestData.questions.find(q => q.id === contestData.currentQuestion)?.sampleInput || "";
-
-            try {
-              const result = await executeCode(sourceCode, languageId, input);
-              document.getElementById("output").textContent = result;
-            } catch (err) {
-              document.getElementById("output").textContent = "Error: " + err;
-            }
-          });
-        }
-
-        // Submit button - run all test cases
-        const submitBtn = document.getElementById("submitBtn");
-        if (submitBtn) {
-          submitBtn.addEventListener("click", runTestCases);
-        }
-
-        // Question tab switching
-        document.querySelectorAll(".question-tab").forEach(tab => {
-          tab.addEventListener("click", function() {
-            const questionId = this.getAttribute("data-question");
-            if (questionId === "admin") {
-              loadQuestion("admin");
-            } else {
-              loadQuestion(parseInt(questionId));
-            }
-          });
-        });
-
-        // Admin panel functionality
-        const adminQuestionSelect = document.getElementById("admin-question-select");
-        const loadTestCasesBtn = document.getElementById("load-test-cases");
-        const saveTestCasesBtn = document.getElementById("save-test-cases");
-        const addTestCaseBtn = document.getElementById("add-test-case");
-        const testCasesList = document.getElementById("test-cases-list");
-
-        if (loadTestCasesBtn) {
-          loadTestCasesBtn.addEventListener("click", function() {
-            const questionId = parseInt(adminQuestionSelect.value);
-            loadAdminTestCases(questionId);
-          });
-        }
-
-        if (saveTestCasesBtn) {
-          saveTestCasesBtn.addEventListener("click", function() {
-            const questionId = parseInt(adminQuestionSelect.value);
-            saveAdminTestCases(questionId);
-          });
-        }
-
-        if (addTestCaseBtn) {
-          addTestCaseBtn.addEventListener("click", function() {
-            addTestCase();
-          });
-        }
-      }
+    // Initialize Admin page
+    if (sectionId === "admin") {
+      initAdminPage();
     }
 
     // Initialize problemset functionality
@@ -718,6 +653,179 @@ function removeTestCase(button) {
 }
 
 // -------------------- PROBLEMSET --------------------
+// -------------------- CONTESTS LANDING --------------------
+function getContestsList() {
+  try { return JSON.parse(localStorage.getItem('cc_contests') || '[]'); } catch { return []; }
+}
+function setContestsList(list) { localStorage.setItem('cc_contests', JSON.stringify(list)); }
+
+function renderContestsGrid() {
+  const grid = document.getElementById('contests-grid');
+  if (!grid) return;
+  const contests = getContestsList();
+  grid.innerHTML = '';
+  contests.forEach((c, idx) => {
+    const now = Date.now();
+    const startMs = Number(c.startMs || 0);
+    const endMs = startMs + (Number(c.lengthMinutes || 0) * 60 * 1000);
+    const canEnter = now >= startMs && now <= endMs;
+    const row = document.createElement('div');
+    row.className = 'contest-row';
+    row.innerHTML = `
+      <div class="contest-cell">${escapeHtml(c.name || 'Untitled')}</div>
+      <div class="contest-cell">${escapeHtml(c.writers || '')}</div>
+      <div class="contest-cell" data-idx="${idx}">${formatStartCell(startMs)}</div>
+      <div class="contest-cell">${Number(c.lengthMinutes || 0)} min</div>
+      <div class="contest-cell">${escapeHtml(c.result || '-')}</div>
+      <div class="contest-cell">
+        <button class="contest-enter" data-idx="${idx}" ${canEnter ? '' : 'disabled'}>${canEnter ? 'Enter' : 'Locked'}</button>
+      </div>`;
+    grid.appendChild(row);
+  });
+
+  // Wire enter buttons
+  grid.querySelectorAll('.contest-enter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.getAttribute('data-idx'));
+      enterContest(idx);
+    });
+  });
+}
+
+function formatStartCell(startMs) {
+  if (!startMs) return '-';
+  const now = Date.now();
+  if (now >= startMs) return '00:00:00';
+  const diff = startMs - now;
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+let contestCountdownInterval = null;
+function showContestLanding() {
+  // toggle panels
+  const landing = document.getElementById('contest-landing');
+  const live = document.getElementById('contest-live');
+  if (landing) landing.style.display = 'block';
+  if (live) live.style.display = 'none';
+  // render grid
+  renderContestsGrid();
+  // start countdown ticker to refresh Start cells every second
+  clearInterval(contestCountdownInterval);
+  contestCountdownInterval = setInterval(() => {
+    const contests = getContestsList();
+    const grid = document.getElementById('contests-grid');
+    if (!grid) return;
+    const startCells = grid.querySelectorAll('[data-idx]');
+    startCells.forEach(el => {
+      const idx = Number(el.getAttribute('data-idx'));
+      const c = contests[idx];
+      if (c) el.textContent = formatStartCell(Number(c.startMs || 0));
+    });
+    // also update button enabled state
+    grid.querySelectorAll('.contest-enter').forEach(btn => {
+      const idx = Number(btn.getAttribute('data-idx'));
+      const c = contests[idx];
+      const now = Date.now();
+      const startMs = Number(c?.startMs || 0);
+      const endMs = startMs + (Number(c?.lengthMinutes || 0) * 60 * 1000);
+      const canEnter = c && now >= startMs && now <= endMs;
+      btn.disabled = !canEnter;
+      btn.textContent = canEnter ? 'Enter' : 'Locked';
+    });
+  }, 1000);
+}
+
+function enterContest(index) {
+  // switch panels
+  const landing = document.getElementById('contest-landing');
+  const live = document.getElementById('contest-live');
+  if (landing) landing.style.display = 'none';
+  if (live) live.style.display = 'block';
+  // start timer if not already started
+  if (!timerInterval) startTimer();
+  // load first question
+  loadQuestion(1);
+  // initialize ace once
+  initAceAndBind();
+  // render sidebar problems
+  renderProblemList();
+  // wire prev/next
+  const prevBtn = document.getElementById('prevQuestion');
+  const nextBtn = document.getElementById('nextQuestion');
+  if (prevBtn) prevBtn.addEventListener('click', () => navigateQuestion(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => navigateQuestion(1));
+}
+
+function initAceAndBind() {
+  if (!window.aceInitialized) {
+    const aceEditor = ace.edit('editor', {
+      theme: currentTheme === 'light' ? 'ace/theme/github' : 'ace/theme/monokai',
+      mode: 'ace/mode/python',
+      fontSize: 14,
+      showPrintMargin: false,
+      showGutter: true,
+      highlightActiveLine: true,
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true,
+    });
+    window.aceEditor = aceEditor;
+    window.aceInitialized = true;
+
+    const langMap = { 71: 'python', 54: 'c_cpp', 50: 'c_cpp', 62: 'java', 63: 'javascript' };
+    const langSel = document.getElementById('language');
+    if (langSel) {
+      langSel.addEventListener('change', function () {
+        const mode = langMap[this.value] || 'text';
+        aceEditor.session.setMode('ace/mode/' + mode);
+      });
+    }
+
+    const runBtn = document.getElementById('runBtn');
+    if (runBtn && langSel) {
+      runBtn.addEventListener('click', async function () {
+        const sourceCode = aceEditor.getValue();
+        const languageId = langSel.value;
+        const input = contestData.questions.find(q => q.id === contestData.currentQuestion)?.sampleInput || '';
+        try {
+          const result = await executeCode(sourceCode, languageId, input);
+          document.getElementById('output').textContent = result;
+        } catch (err) {
+          document.getElementById('output').textContent = 'Error: ' + err;
+        }
+      });
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) submitBtn.addEventListener('click', runTestCases);
+
+    document.querySelectorAll('.question-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const questionId = this.getAttribute('data-question');
+        loadQuestion(parseInt(questionId));
+      });
+    });
+  }
+}
+
+function navigateQuestion(delta) {
+  if (window.aceEditor) {
+    savedCodeByQuestion[contestData.currentQuestion] = window.aceEditor.getValue();
+  }
+  const ids = contestData.questions.map(q => q.id);
+  const idx = ids.indexOf(contestData.currentQuestion);
+  let nextIdx = idx + delta;
+  if (nextIdx < 0) nextIdx = 0;
+  if (nextIdx >= ids.length) nextIdx = ids.length - 1;
+  const nextId = ids[nextIdx];
+  loadQuestion(nextId);
+}
+
+function getDefaultTemplateCode() {
+  return 'print("Hello, World!")';
+}
 let problemsetState = {
   loaded: false,
   items: [],
@@ -943,6 +1051,91 @@ function renderCompanies() {
     frag.appendChild(chip);
   });
   wrap.appendChild(frag);
+}
+
+// -------------------- ADMIN PAGE --------------------
+function initAdminPage() {
+  const listEl = document.getElementById('admin-contests-list');
+  const addBtn = document.getElementById('add-contest');
+  if (!listEl || !addBtn) return;
+  const contests = getContestsList();
+  renderAdminContests(listEl, contests);
+  if (!addBtn._bound) {
+    addBtn._bound = true;
+    addBtn.addEventListener('click', () => {
+      const startMs = Date.now() + 60000;
+      contests.push({ name: 'Contest 0001', writers: '', startMs, lengthMinutes: 60, result: '-' });
+      setContestsList(contests);
+      renderAdminContests(listEl, contests);
+      renderContestsGrid();
+    });
+  }
+  // per-row save handled within render
+}
+
+function renderAdminContests(listEl, contests) {
+  // Simple list, no header
+  listEl.innerHTML = '';
+  contests.forEach((c, idx) => {
+    const row = document.createElement('div');
+    row.className = 'admin-contest-row admin-contest-card';
+    row.style.display = 'block';
+    row.style.marginBottom = '12px';
+    const dt = new Date(Number(c.startMs || Date.now()));
+    const yyyy = dt.getFullYear();
+    const mm = String(dt.getMonth() + 1).padStart(2, '0');
+    const dd = String(dt.getDate()).padStart(2, '0');
+    const HH = String(dt.getHours()).padStart(2, '0');
+    const MM = String(dt.getMinutes()).padStart(2, '0');
+    row.innerHTML = `
+      <label>Name
+        <input class="ac-name" placeholder="Contest name" value="${escapeHtml(c.name||'')}">
+      </label>
+      <label>Writers
+        <input class="ac-writers" placeholder="Writers" value="${escapeHtml(c.writers||'')}">
+      </label>
+      <label>Start Date
+        <input class="ac-date" type="date" value="${yyyy}-${mm}-${dd}">
+      </label>
+      <label>Start Time
+        <input class="ac-time" type="time" value="${HH}:${MM}">
+      </label>
+      <label>Length (minutes)
+        <input class="ac-length" type="number" placeholder="Length (min)" value="${Number(c.lengthMinutes||60)}">
+      </label>
+      <label>Result
+        <input class="ac-result" placeholder="Result" value="${escapeHtml(c.result||'-')}">
+      </label>
+      <div class="admin-contest-actions">
+        <button class="ac-save">Save</button>
+        <button class="ac-remove">Remove</button>
+      </div>
+    `;
+    row.querySelector('.ac-save').addEventListener('click', () => {
+      const name = row.querySelector('.ac-name').value;
+      const writers = row.querySelector('.ac-writers').value;
+      const dateStr = row.querySelector('.ac-date').value;
+      const timeStr = row.querySelector('.ac-time').value;
+      const lengthMinutes = Number(row.querySelector('.ac-length').value) || 60;
+      const result = row.querySelector('.ac-result').value || '-';
+      let startMs = Date.now();
+      if (dateStr && timeStr) {
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const [hh, mm] = timeStr.split(':').map(Number);
+        startMs = new Date(y, m - 1, d, hh, mm, 0, 0).getTime();
+      }
+      contests[idx] = { name, writers, startMs, lengthMinutes, result };
+      setContestsList(contests);
+      renderContestsGrid();
+    });
+    row.querySelector('.ac-remove').addEventListener('click', () => {
+      contests.splice(idx,1);
+      setContestsList(contests);
+      renderAdminContests(listEl, contests);
+      renderContestsGrid();
+    });
+    listEl.appendChild(row);
+  });
 }
 
 function escapeHtml(str) {

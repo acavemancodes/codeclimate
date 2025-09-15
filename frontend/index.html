@@ -57,6 +57,7 @@
           <li>
             <a href="#" class="nav-link" data-section="contests">CONTEST</a>
           </li>
+          <li><a href="#" class="nav-link" data-section="admin">ADMIN</a></li>
           <li>S-CURVE</li>
           <li><a href="#" class="nav-link" data-section="problemset">PROBLEMSET</a></li>
           <li>CONTRIBUTE</li>
@@ -78,89 +79,79 @@
       </div>
 
       <div id="contests" class="content-section" style="display: none">
-        <h2>Contest Area</h2>
-        
-        <!-- Contest Timer and Info -->
-        <div class="contest-header">
-          <div class="timer-section">
-            <h3>Time Remaining: <span id="timer">60:00</span></h3>
-            <div class="progress-bar">
-              <div id="progress" class="progress-fill"></div>
-            </div>
+        <h2>Contest</h2>
+        <section id="contest-landing" class="landing-panel">
+          <div class="landing-text">
+            <h3>Welcome to CodeClimate@SNIST Coding Contest 0001</h3>
+            <p>The contest link will be accessible only when the timer reaches <strong>00:00:00</strong>. The link will remain valid strictly during the contest duration.</p>
+            <p>At <strong>CodeClimate@SNIST</strong>, we take malpractice as a very serious concern. Any attempt such as plagiarism, use of unauthorized resources, or unfair practices will result in:</p>
+            <ul>
+              <li>Permanent ban of your ID from all upcoming coding contests.</li>
+              <li>Disciplinary action in coordination with the CUE Department.</li>
+            </ul>
+            <p>We expect every participant to compete with honesty and integrity. Wishing you all the best.</p>
+            <p>— Team CodeClimate@SNIST</p>
           </div>
-          <div class="contest-info">
-            <span>Question <span id="current-question">1</span> of 3</span>
-            <span>Test Cases Passed: <span id="test-cases-passed">0</span>/10</span>
-            <span>Score: <span id="total-score">0</span> points</span>
-          </div>
-        </div>
-
-        <!-- Question Navigation -->
-        <div class="question-tabs">
-          <button class="question-tab active" data-question="1">Question 1</button>
-          <button class="question-tab" data-question="2">Question 2</button>
-          <button class="question-tab" data-question="3">Question 3</button>
-          <button class="question-tab" data-question="admin">Admin</button>
-        </div>
-
-        <div class="contest-flex">
-          <!-- LEFT: Problem Statement -->
-          <div class="contest-question">
-            <div id="question-content">
-              <!-- Question content will be loaded here -->
+          <div class="contests-grid-wrap">
+            <div class="contests-grid-header">
+              <div>Name</div>
+              <div>Writers</div>
+              <div>Start</div>
+              <div>Length</div>
+              <div>Result</div>
+              <div>Enter</div>
             </div>
-            
-            <!-- Admin Panel for Test Case Management -->
-            <div id="admin-panel" style="display: none;">
-              <h3>Test Case Management</h3>
-              <div class="admin-controls">
-                <select id="admin-question-select">
-                  <option value="1">Question 1: Sum of Two Numbers</option>
-                  <option value="2">Question 2: Maximum of Three Numbers</option>
-                  <option value="3">Question 3: Factorial</option>
-                </select>
-                <button id="load-test-cases">Load Test Cases</button>
-                <button id="save-test-cases">Save Test Cases</button>
-              </div>
-              
-              <div class="test-case-editor">
-                <h4>Test Cases for Question <span id="admin-current-question">1</span></h4>
-                <div id="test-cases-list">
-                  <!-- Test cases will be loaded here -->
+            <div id="contests-grid" class="contests-grid"></div>
+          </div>
+        </section>
+
+        <section id="contest-live" style="display:none">
+          <div class="contest-two-col">
+            <div class="col-left">
+              <div class="contest-question"><div id="question-content"></div></div>
+            </div>
+            <div class="col-right">
+              <div class="contest-editor">
+                <div class="q-nav">
+                  <button id="prevQuestion" class="q-btn">Prev</button>
+                  <div class="q-meta">Question <span id="current-question">1</span> of <span id="total-questions">3</span> • Passed <span id="test-cases-passed">0</span>/10</div>
+                  <button id="nextQuestion" class="q-btn">Next</button>
                 </div>
-                <button id="add-test-case">Add Test Case</button>
+                <div class="editor-controls">
+                  <button id="miniTimer" class="mini-timer" disabled>60:00</button>
+                  <select id="language">
+                    <option value="71">Python 3</option>
+                    <option value="54">C++</option>
+                    <option value="50">C</option>
+                    <option value="62">Java</option>
+                    <option value="63">JavaScript</option>
+                  </select>
+                  <button id="runBtn">Run Code</button>
+                  <button id="submitBtn">Submit</button>
+                </div>
+                <div id="editor">print("Hello, World!")</div>
+                <div class="output-section">
+                  <h4>Output</h4>
+                  <pre id="output"></pre>
+                </div>
+                <div class="test-cases-section">
+                  <h4>Test Cases Results</h4>
+                  <div id="test-cases-results" class="test-cases-grid"></div>
+                </div>
               </div>
             </div>
           </div>
-          
-          <!-- RIGHT: Editor & Output -->
-          <div class="contest-editor">
-            <div class="editor-controls">
-              <select id="language">
-                <option value="71">Python 3</option>
-                <option value="54">C++</option>
-                <option value="50">C</option>
-                <option value="62">Java</option>
-                <option value="63">JavaScript</option>
-              </select>
-              <button id="runBtn">Run Code</button>
-              <button id="submitBtn">Submit</button>
-            </div>
-            <div id="editor">print("Hello, World!")</div>
-            
-            <!-- Test Cases Results -->
-            <div class="test-cases-section">
-              <h4>Test Cases Results</h4>
-              <div id="test-cases-results" class="test-cases-grid">
-                <!-- Test case results will be displayed here -->
-              </div>
-            </div>
-            
-            <div class="output-section">
-              <h4>Output</h4>
-              <pre id="output"></pre>
-            </div>
+        </section>
+      </div>
+
+      <div id="admin" class="content-section" style="display: none">
+        <h2>Admin</h2>
+        <div class="nerdy-panel">
+          <h3>Manage Contests</h3>
+          <div class="admin-controls">
+            <button id="add-contest">Add Contest</button>
           </div>
+          <div id="admin-contests-list"></div>
         </div>
       </div>
 

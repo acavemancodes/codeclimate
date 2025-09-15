@@ -89,12 +89,12 @@ body {
 }
 
 .brand-main {
-  color: #000;
+  color: var(--text-primary);
   font-family: "Arial Narrow", Arial, sans-serif;
 }
 
 .brand-sub {
-  color: #0854cf;
+  color: var(--accent-color);
   letter-spacing: 0.5px;
   font-family: "Roboto Condensed", Arial, sans-serif;
 }
@@ -102,7 +102,7 @@ body {
 .maintained {
   margin-left: 14px;
   font-size: 13px;
-  color: #888;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -127,8 +127,8 @@ body {
 
 /* Theme Toggle Button */
 .theme-toggle-btn {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
@@ -141,8 +141,8 @@ body {
 }
 
 .theme-toggle-btn:hover {
-  background: #e5e7eb;
-  border-color: #9ca3af;
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
   transform: scale(1.05);
 }
 
@@ -156,20 +156,20 @@ body {
 }
 
 .user-links a {
-  color: #186df6;
+  color: var(--accent-color);
   text-decoration: none;
 }
 
 .lang-icons img {
   margin-left: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-light);
   border-radius: 2px;
 }
 
 .top-nav {
   margin-top: 14px;
   background: var(--bg-primary);
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .top-nav ul {
@@ -216,11 +216,11 @@ body {
   height: 400px !important;
   min-height: 300px;
   max-height: 500px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-size: 14px;
   margin-bottom: 16px;
-  background: #ffffff !important;
+  background: var(--bg-primary) !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -359,20 +359,20 @@ body {
 
 .contest-right {
   flex: 0 0 340px;
-  background: #fff;
-  border: 2px solid #186df6;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-color);
   border-radius: 8px;
   padding: 22px 18px;
   min-height: 300px;
   max-width: 340px;
   box-shadow: 0 2px 8px rgba(24, 109, 246, 0.07);
   font-size: 1.08rem;
-  color: #222;
+  color: var(--text-primary);
 }
 
 .contest-right h3 {
   margin-top: 0;
-  color: #186df6;
+  color: var(--accent-color);
   font-size: 1.18rem;
   margin-bottom: 10px;
 }
@@ -441,18 +441,18 @@ body {
 
 /* --- Tech Blog Section Styling --- */
 #techblog.content-section {
-  background: #f7faff;
-  border: 2px solid #e3e3e3;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
   border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(24, 109, 246, 0.06);
+  box-shadow: var(--shadow);
   padding: 32px 36px;
   margin: 32px auto;
   max-width: 900px;
-  color: #222;
+  color: var(--text-primary);
 }
 
 #techblog h2 {
-  color: #186df6;
+  color: var(--accent-color);
   font-size: 2rem;
   margin-bottom: 18px;
   font-weight: 700;
@@ -462,7 +462,7 @@ body {
 #techblog h3,
 #techblog h4,
 #techblog h5 {
-  color: #0854cf;
+  color: var(--accent-hover);
   margin-top: 24px;
   margin-bottom: 10px;
   font-weight: 600;
@@ -485,31 +485,31 @@ body {
 }
 
 #techblog a {
-  color: #186df6;
+  color: var(--accent-color);
   text-decoration: underline;
   transition: color 0.2s;
 }
 #techblog a:hover {
-  color: #38c432;
+  color: var(--success-color);
 }
 
 #techblog time {
   display: block;
-  color: #888;
+  color: var(--text-muted);
   font-size: 0.98rem;
   margin-bottom: 8px;
 }
 
 #techblog code {
-  background: #eaf3fb;
-  color: #186df6;
+  background: var(--bg-secondary);
+  color: var(--accent-color);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 1.01rem;
 }
 
 #techblog em {
-  color: #888;
+  color: var(--text-muted);
   font-size: 0.98rem;
   font-style: italic;
   display: block;
@@ -563,6 +563,35 @@ body {
   color: var(--text-muted);
   font-weight: 500;
 }
+
+/* --- LeetCode-like Layout --- */
+/* Remove previous LC layout since not needed */
+.lc-header, .lc-body, .lc-sidebar, .lc-main, .lc-problem-list, .lc-problem-item { display: none; }
+
+/* Two-column contest layout */
+.contest-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; height: calc(100vh - 180px); }
+.col-left, .col-right { overflow: auto; }
+
+.mini-timer { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border-light); background: var(--bg-secondary); color: var(--text-secondary); cursor: default; }
+
+/* Question nav */
+.q-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.q-btn { padding: 6px 10px; border: 1px solid var(--border-light); background: var(--bg-secondary); color: var(--text-secondary); border-radius: 8px; cursor: pointer; }
+.q-btn:hover { background: var(--bg-tertiary); }
+.q-meta { color: var(--text-secondary); font-size: 14px; }
+
+/* --- Contest Landing --- */
+.landing-panel { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); }
+.landing-text h3 { font-size: 24px; color: var(--text-primary); margin-top: 0; }
+.landing-text p, .landing-text li { font-size: 16px; color: var(--text-secondary); }
+.landing-text ul { margin: 10px 0 16px 20px; }
+.contests-grid-wrap { margin-top: 16px; }
+.contests-grid-header, .contests-grid { display: grid; grid-template-columns: 2fr 1.5fr 1.2fr 1.2fr 1fr 1fr; gap: 8px; }
+.contests-grid-header { font-weight: 700; color: var(--text-primary); padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-secondary); }
+.contest-row { padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-primary); color: var(--text-secondary); display: contents; }
+.contest-cell { padding: 8px 10px; border-bottom: 1px dashed var(--border-light); }
+.contest-enter { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border-light); background: var(--bg-secondary); color: var(--text-secondary); cursor: pointer; }
+.contest-enter[disabled] { opacity: 0.6; cursor: not-allowed; }
 
 /* --- Question Tabs Styling --- */
 .question-tabs {
@@ -670,7 +699,7 @@ body {
 
 .output-section h4 {
   margin: 0 0 10px 0;
-  color: #186df6;
+  color: var(--accent-color);
   font-size: 1.1rem;
 }
 
@@ -998,3 +1027,27 @@ body {
 .topics .topic { background: var(--bg-secondary); border: 1px solid var(--border-light); border-radius: 6px; padding: 2px 6px; font-size: 12px; }
 .ps-card-right { display: flex; align-items: center; gap: 8px; }
 .ps-progress-select { padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-secondary); }
+
+/* --- Admin contests grid --- */
+.admin-contests-header,
+.admin-contest-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 1fr 1fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.admin-contests-header { display: none; }
+.admin-contest-row { padding: 0; border: none; background: transparent; }
+.admin-contest-card {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-primary);
+  box-shadow: var(--shadow);
+}
+.admin-contest-row label { display: block; margin-bottom: 6px; color: var(--text-secondary); font-size: 12px; }
+.admin-contest-row input { width: 100%; padding: 8px 10px; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary); }
+.admin-contest-actions { display: flex; gap: 8px; margin-top: 8px; }
+.admin-contest-row .ac-remove, .admin-contest-row .ac-save { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-light); background: var(--bg-secondary); color: var(--text-secondary); cursor: pointer; }
+.admin-contest-row .ac-remove:hover, .admin-contest-row .ac-save:hover { background: var(--bg-tertiary); }
