@@ -30,53 +30,19 @@
       <!-- HEADER -->
       <header class="main-header">
         <div class="brand-section">
-          <div class="logo"></div>
-          <span class="brand">
-            <span class="brand-main">code</span>
-            <span class="sub-brand">Climate</span>
-          </span>
-          <span class="maintained">maintained by <b>TVC</b></span>
+          <div class="cf-brand">
+            <a href="#" class="brand-home nav-link" data-section="home">
+              <img class="cc-logo" src="codeclimate.png" alt="CodeClimate" aria-hidden="true" />
+            </a>
+          </div>
         </div>
 
         <div class="user-links">
-          <!-- Register button triggers popup -->
-          <button id="openPopup">Register</button>
-
-          <!-- Popup Overlay -->
-          <div class="popup-overlay" id="popupOverlay">
-            <div class="popup">
-              <h2>Register</h2>
-              <form id="registerForm">
-                <label>Username:</label><br />
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  required
-                /><br /><br />
-
-                <label>College Email:</label><br />
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="example@college.edu"
-                  required
-                /><br /><br />
-
-                <label>Password:</label><br />
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  required
-                /><br /><br />
-
-                <button type="submit">Submit</button>
-                <button type="button" id="closePopup">Cancel</button>
-              </form>
-            </div>
-          </div>
+          <!-- Theme toggle button -->
+          <button id="themeToggle" class="theme-toggle-btn" title="Toggle theme">
+            <span class="theme-icon">🌙</span>
+          </button>
+          <button id="loginBtn" class="auth-btn" title="Login or Register">Login</button>
         </div>
       </header>
 
@@ -92,7 +58,7 @@
             <a href="#" class="nav-link" data-section="contests">CONTEST</a>
           </li>
           <li>S-CURVE</li>
-          <li>PROBLEMSET</li>
+          <li><a href="#" class="nav-link" data-section="problemset">PROBLEMSET</a></li>
           <li>CONTRIBUTE</li>
           <li>RATING</li>
           <li>ALUMNI</li>
@@ -100,7 +66,6 @@
             <a href="#" class="nav-link" data-section="calender">CALENDER</a>
           </li>
           <li>HELP</li>
-          <li><input class="search" type="text" placeholder="" /></li>
         </ul>
       </nav>
 
@@ -108,16 +73,69 @@
       <div id="home" class="content-section" style="display: block">
         <h2>codeClimate Round 0001</h2>
         <p>
-          Welcome to CodeClimate! Click <strong>Register</strong> above to
-          create your account.
+          Welcome to CodeClimate! Click <strong>CONTEST</strong> to start coding.
         </p>
       </div>
 
       <div id="contests" class="content-section" style="display: none">
         <h2>Contest Area</h2>
+        
+        <!-- Contest Timer and Info -->
+        <div class="contest-header">
+          <div class="timer-section">
+            <h3>Time Remaining: <span id="timer">60:00</span></h3>
+            <div class="progress-bar">
+              <div id="progress" class="progress-fill"></div>
+            </div>
+          </div>
+          <div class="contest-info">
+            <span>Question <span id="current-question">1</span> of 3</span>
+            <span>Test Cases Passed: <span id="test-cases-passed">0</span>/10</span>
+            <span>Score: <span id="total-score">0</span> points</span>
+          </div>
+        </div>
+
+        <!-- Question Navigation -->
+        <div class="question-tabs">
+          <button class="question-tab active" data-question="1">Question 1</button>
+          <button class="question-tab" data-question="2">Question 2</button>
+          <button class="question-tab" data-question="3">Question 3</button>
+          <button class="question-tab" data-question="admin">Admin</button>
+        </div>
+
         <div class="contest-flex">
-          <div class="contest-left">
-            <div style="margin-bottom: 10px;">
+          <!-- LEFT: Problem Statement -->
+          <div class="contest-question">
+            <div id="question-content">
+              <!-- Question content will be loaded here -->
+            </div>
+            
+            <!-- Admin Panel for Test Case Management -->
+            <div id="admin-panel" style="display: none;">
+              <h3>Test Case Management</h3>
+              <div class="admin-controls">
+                <select id="admin-question-select">
+                  <option value="1">Question 1: Sum of Two Numbers</option>
+                  <option value="2">Question 2: Maximum of Three Numbers</option>
+                  <option value="3">Question 3: Factorial</option>
+                </select>
+                <button id="load-test-cases">Load Test Cases</button>
+                <button id="save-test-cases">Save Test Cases</button>
+              </div>
+              
+              <div class="test-case-editor">
+                <h4>Test Cases for Question <span id="admin-current-question">1</span></h4>
+                <div id="test-cases-list">
+                  <!-- Test cases will be loaded here -->
+                </div>
+                <button id="add-test-case">Add Test Case</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- RIGHT: Editor & Output -->
+          <div class="contest-editor">
+            <div class="editor-controls">
               <select id="language">
                 <option value="71">Python 3</option>
                 <option value="54">C++</option>
@@ -125,20 +143,23 @@
                 <option value="62">Java</option>
                 <option value="63">JavaScript</option>
               </select>
-              <button id="runBtn">Run</button>
+              <button id="runBtn">Run Code</button>
+              <button id="submitBtn">Submit</button>
             </div>
             <div id="editor">print("Hello, World!")</div>
-            <pre id="output"></pre>
-          </div>
-          <div class="contest-right">
-            <h3>Sample Problem</h3>
-            <p>
-              Given two integers A and B, print their sum.<br>
-              <b>Input:</b> Two integers A and B.<br>
-              <b>Output:</b> The sum of A and B.<br>
-              <b>Sample Input:</b> 2 3<br>
-              <b>Sample Output:</b> 5
-            </p>
+            
+            <!-- Test Cases Results -->
+            <div class="test-cases-section">
+              <h4>Test Cases Results</h4>
+              <div id="test-cases-results" class="test-cases-grid">
+                <!-- Test case results will be displayed here -->
+              </div>
+            </div>
+            
+            <div class="output-section">
+              <h4>Output</h4>
+              <pre id="output"></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -495,6 +516,33 @@
         </p>
       </div>
 
+      <div id="problemset" class="content-section" style="display: none">
+        <h2>Problemset</h2>
+        <div class="ps-controls nerdy-panel">
+          <div class="ps-row">
+            <input id="ps-search" type="text" placeholder="search questions or topics..." class="ps-input" />
+            <select id="ps-difficulty" class="ps-select">
+              <option value="">All Difficulties</option>
+              <option value="EASY">EASY</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="HARD">HARD</option>
+            </select>
+            <select id="ps-progress" class="ps-select">
+              <option value="">All Progress</option>
+              <option value="todo">To do</option>
+              <option value="in_progress">In progress</option>
+              <option value="done">Done</option>
+            </select>
+            <button id="ps-company-toggle" class="ps-select company-toggle" type="button">Companies ▾</button>
+          </div>
+          <div id="ps-companies" class="ps-companies" style="display: none;"></div>
+          <div id="ps-topics" class="ps-topics"></div>
+          <div class="ps-stats" id="ps-stats"></div>
+        </div>
+
+        <div id="ps-list" class="ps-list"></div>
+      </div>
+
       <div id="calender" class="content-section" style="display: none">
         <h2>codeClimate</h2>
         <div id="calendarContainer" style="width: 800px; height: 600px">
@@ -508,6 +556,41 @@
           >
           </iframe>
         </div>
+      </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authOverlay" class="overlay" style="display: none;">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="authTitle">Login</h3>
+          <button id="authClose" class="modal-close" aria-label="Close">✕</button>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="login">Login</button>
+          <button class="tab" data-tab="register">Register</button>
+        </div>
+        <form id="loginForm" class="form" autocomplete="on">
+          <label>Email
+            <input type="email" id="loginEmail" required />
+          </label>
+          <label>Password
+            <input type="password" id="loginPassword" required />
+          </label>
+          <button type="submit" class="primary-btn">Login</button>
+        </form>
+        <form id="registerForm" class="form" style="display:none" autocomplete="on">
+          <label>Email
+            <input type="email" id="regEmail" required />
+          </label>
+          <label>Password
+            <input type="password" id="regPassword" required minlength="6" />
+          </label>
+          <label>Confirm Password
+            <input type="password" id="regPassword2" required minlength="6" />
+          </label>
+          <button type="submit" class="primary-btn">Create account</button>
+        </form>
       </div>
     </div>
 
